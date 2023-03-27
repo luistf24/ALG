@@ -23,5 +23,6 @@ imagen: # Crea las imágenes con gnuplot n=nombre de la foto  t=Titulo de gráfi
 
 clean: # Limpia los proyectos(Generador, Especifico y Dyv)
 	@echo -e "Limpiando los binarios ..."
-	rm ./Generador/bin/*
+	rm ./Generador/bin/generador
+	rm ./Especifico/bin/especifico
 
