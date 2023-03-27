@@ -9,13 +9,15 @@ help: # Imprime mensaje con las distintas opciones del Makefile
 build: # Construir los programas: Generador, Especifico y Dyv
 	@echo -e "Construyendo el proyecto ..."
 	g++ ./Generador/src/generador.cpp -o ./Generador/bin/generador -O3
+	g++ ./Especifico/src/especifico.cpp -o ./Especifico/bin/especifico -O3 -std=gnu++0x
 
 runGen: # Ejecuta el generador de casos m=tamaño del mapa n=numero de posiciones
 	./Generador/bin/generador ${m} ${n}
 
 runDyv: # Ejecuta el programa con el algoritmo Divide y Vencerás
 
-runEsp: # Ejecuta el programa con el algoritmo Especifico 
+runEsp: # Ejecuta el programa con el algoritmo Especifico n=posiciones del problema s=salida(0 -> ninguna|1 -> archivo)
+	./Especifico/bin/especifico ${n} ${s}
 
 imagen: # Crea las imágenes con gnuplot n=nombre de la foto  t=Titulo de gráfica 
 

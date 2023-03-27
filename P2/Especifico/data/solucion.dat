@@ -1,0 +1,37 @@
+Las posiciones alcanzables desde la posición 0 (210,704) son:
+  - Posición: 8 (19,120)
+Las posiciones alcanzables desde la posición 1 (884,555) son:
+  - Posición: 2 (277,544)
+  - Posición: 3 (421,173)
+  - Posición: 8 (19,120)
+  - Posición: 9 (391,341)
+Las posiciones alcanzables desde la posición 2 (277,544) son:
+  - Posición: 8 (19,120)
+Las posiciones alcanzables desde la posición 3 (421,173) son:
+  - Posición: 8 (19,120)
+Las posiciones alcanzables desde la posición 4 (848,820) son:
+  - Posición: 0 (210,704)
+  - Posición: 2 (277,544)
+  - Posición: 3 (421,173)
+  - Posición: 5 (664,635)
+  - Posición: 8 (19,120)
+  - Posición: 9 (391,341)
+Las posiciones alcanzables desde la posición 5 (664,635) son:
+  - Posición: 2 (277,544)
+  - Posición: 3 (421,173)
+  - Posición: 8 (19,120)
+  - Posición: 9 (391,341)
+Las posiciones alcanzables desde la posición 6 (712,832) son:
+  - Posición: 0 (210,704)
+  - Posición: 2 (277,544)
+  - Posición: 3 (421,173)
+  - Posición: 5 (664,635)
+  - Posición: 8 (19,120)
+  - Posición: 9 (391,341)
+Las posiciones alcanzables desde la posición 7 (931,202) son:
+  - Posición: 3 (421,173)
+  - Posición: 8 (19,120)
+Las posiciones alcanzables desde la posición 8 (19,120) son:
+  - Ninguna
+Las posiciones alcanzables desde la posición 9 (391,341) son:
+  - Posición: 8 (19,120)
