@@ -19,7 +19,12 @@ runDyv: # Ejecuta el programa con el algoritmo Divide y Vencerás
 runEsp: # Ejecuta el programa con el algoritmo Especifico n=posiciones del problema s=salida(0 -> ninguna|1 -> archivo)
 	./Especifico/bin/especifico ${n} ${s}
 
-imagen: # Crea las imágenes con gnuplot n=nombre de la foto  t=Titulo de gráfica 
+runEspScript: # Ejecuta el programa Especifico con el script mide-tiempos.sh s=salida(0 -> ninguna|1 -> archivo)
+	./mide-tiempos.sh especifico ./Especifico ${s}
+
+imagen: # Crea las imágenes con gnuplot  
+	gnuplot -c scriptPlot.gp especifico Algoritmo-Especifico Especifico cuadratico
+	gnuplot -c scriptPlotEmp.gp especifico Algoritmo-Especifico Especifico cuadratico
 
 clean: # Limpia los proyectos(Generador, Especifico y Dyv)
 	@echo -e "Limpiando los binarios ..."
