@@ -5,20 +5,32 @@
 #include <sstream>
 #include <utility> //pair
 #include <chrono>
+#include <algorithm>
 
 using namespace std;
 
+struct punto
+{
+	int x;
+	int y;
+};
+
+bool comp(punto a, punto b)
+{
+	return a.x<b.x || (a.x==b.x && a.y < b.y);
+}
+
 // Función para extraer todas las posiciones de los datos generados, además comprueba 
 // que existan suficientes posiciones generadas.
-vector<pair<int, int>> obtenerPosiciones(int pos)
+vector<punto> obtenerPosiciones(int pos)
 {
 	ifstream posicionesGeneradas("./Generador/data/posiciones.dat");
 
 	string linea, palabra;
 	stringstream ss;
 	int numero;
-	vector<pair<int, int>> posiciones;
-	pair<int, int> posicion;
+	vector<punto> posiciones;
+	punto posicion;
 
 	while(getline(posicionesGeneradas, linea))
 	{
@@ -26,14 +38,14 @@ vector<pair<int, int>> obtenerPosiciones(int pos)
 
 		// x
 		ss >> palabra;	
-		stringstream(palabra) >> posicion.first;
+		stringstream(palabra) >> posicion.x;
 
 		// " "
 		ss >> palabra;	
 
 		// y
 		ss >> palabra;	
-		stringstream(palabra) >> posicion.second;
+		stringstream(palabra) >> posicion.y;
 
 		posiciones.push_back(posicion);
 		ss.clear();
@@ -46,18 +58,20 @@ vector<pair<int, int>> obtenerPosiciones(int pos)
 }
 
 // Resolución del problema de posiciones alcanzables de manera específica.
-vector<vector<int>> solucionEspecifica(vector<pair<int,int>> posiciones)
+vector<vector<int>> solucionEspecifica(vector<punto> posiciones)
 {
 	vector<vector<int>> solucion;
 	vector<int> posicionesi;
+	
+	sort(posiciones.begin(), posiciones.end(), comp);
 
 	for(int i=0; i<posiciones.size(); i++)
 	{
 		posicionesi.push_back(i);
 
-		for(int j=0; j<posiciones.size(); j++)
+		for(int j=i-1; j>=0; j--)
 		{
-			if(posiciones[i].first > posiciones[j].first && posiciones[i].second > posiciones[j].second)
+			if(posiciones[i].y >= posiciones[j].y)
 				posicionesi.push_back(j);
 				
 		}
@@ -77,7 +91,7 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	vector<pair<int,int>> posiciones;
+	vector<punto> posiciones;
 	try
 	{
 		posiciones = obtenerPosiciones(atoi(argv[1]));
@@ -104,6 +118,7 @@ int main(int argc, char *argv[])
 	// Imprimimos el tiempo de ejecución del algoritmo a través de la terminal
 	cout << argv[1] << " " << transcurrido.count() << endl;
 
+	sort(posiciones.begin(), posiciones.end(), comp);
 
 	// Imprimimos la solución en el archivo solucion.dat si la salida es archivo
 	if(atoi(argv[2]) == 1)
@@ -111,13 +126,13 @@ int main(int argc, char *argv[])
 		ofstream salida("./Especifico/data/solucion.dat", ofstream::out | ofstream::trunc);
 		for(int i=0; i<alcanzables.size(); i++)
 		{
-			salida << "Las posiciones alcanzables desde la posición " << i << " (" << posiciones[i].first << "," << posiciones[i].second << ") son:" << endl; 	
+			salida << "Las posiciones alcanzables desde la posición " << i << " (" << posiciones[i].x << "," << posiciones[i].y << ") son:" << endl; 	
 
 			if(alcanzables[i].size()>1)
 			{
 				for(int j=1; j<alcanzables[i].size(); j++)
 				{
-					salida << "  - Posición: " << alcanzables[i][j] <<  " (" << posiciones[alcanzables[i][j]].first << "," << posiciones[alcanzables[i][j]].second << ")" << endl;
+					salida << "  - Posición: " << alcanzables[i][j] <<  " (" << posiciones[alcanzables[i][j]].x << "," << posiciones[alcanzables[i][j]].y << ")" << endl;
 				}
 			}
 			else
