@@ -10,11 +10,13 @@ build: # Construir los programas: Generador, Especifico y Dyv
 	@echo -e "Construyendo el proyecto ..."
 	g++ ./Generador/src/generador.cpp -o ./Generador/bin/generador -O3
 	g++ ./Especifico/src/especifico.cpp -o ./Especifico/bin/especifico -O3 -std=gnu++0x
+	g++ ./Dyv/src/dyv.cpp -o ./Dyv/bin/dyv -O3 -std=gnu++0x
 
 runGen: # Ejecuta el generador de casos m=tamaño del mapa n=numero de posiciones
 	./Generador/bin/generador ${m} ${n}
 
-runDyv: # Ejecuta el programa con el algoritmo Divide y Vencerás
+runDyv: # Ejecuta el programa con el algoritmo Divide y Vencerás n=posiciones del problema s=salida(0 -> ninguna|1 -> archivo)
+	./Dyv/bin/dyv ${n} ${s}
 
 runEsp: # Ejecuta el programa con el algoritmo Especifico n=posiciones del problema s=salida(0 -> ninguna|1 -> archivo)
 	./Especifico/bin/especifico ${n} ${s}
@@ -22,9 +24,14 @@ runEsp: # Ejecuta el programa con el algoritmo Especifico n=posiciones del probl
 runEspScript: # Ejecuta el programa Especifico con el script mide-tiempos.sh s=salida(0 -> ninguna|1 -> archivo)
 	./mide-tiempos.sh especifico ./Especifico ${s}
 
+runEspScript: # Ejecuta el programa Divide y Vencerás con el script mide-tiempos.sh s=salida(0 -> ninguna|1 -> archivo)
+	./mide-tiempos.sh dyv ./Dyv ${s}
+
 imagen: # Crea las imágenes con gnuplot  
 	gnuplot -c scriptPlot.gp especifico Algoritmo-Especifico Especifico cuadratico
 	gnuplot -c scriptPlotEmp.gp especifico Algoritmo-Especifico Especifico cuadratico
+	#gnuplot -c scriptPlot.gp dyv Algoritmo-Divide-y-Vencerás Dyv log
+	#gnuplot -c scriptPlotEmp.gp dyv Algoritmo-Divide-y-Vencerás Dyv log
 
 clean: # Limpia los proyectos(Generador, Especifico y Dyv)
 	@echo -e "Limpiando los binarios ..."
