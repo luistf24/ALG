@@ -24,7 +24,7 @@ runEsp: # Ejecuta el programa con el algoritmo Especifico n=posiciones del probl
 runEspScript: # Ejecuta el programa Especifico con el script mide-tiempos.sh s=salida(0 -> ninguna|1 -> archivo)
 	./mide-tiempos.sh especifico ./Especifico ${s}
 
-runEspScript: # Ejecuta el programa Divide y Vencerás con el script mide-tiempos.sh s=salida(0 -> ninguna|1 -> archivo)
+runDyvScript: # Ejecuta el programa Divide y Vencerás con el script mide-tiempos.sh s=salida(0 -> ninguna|1 -> archivo)
 	./mide-tiempos.sh dyv ./Dyv ${s}
 
 imagen: # Crea las imágenes con gnuplot  
