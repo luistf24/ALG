@@ -77,15 +77,10 @@ void solucionDyv(vector<vector<int>> &sol, vector<punto> puntos, vector<punto> d
 		sort(dominantes.begin(),dominantes.end(), compy);
 		for(int i=inicio;i<fin;i++)
 		{
-			for(int j=dominantes.size()-1; j>=0; j--)
+			for(int j=dominantes.size()-1; j>=0 && puntos[i].y<=dominantes[j].y; j--)
 			{
-				if(puntos[i].y<dominantes[j].y)
-				{
-					if(puntos[i].x<dominantes[j].x)
+					if(puntos[i].x<=dominantes[j].x && (puntos[i].x!=dominantes[j].x || puntos[i].y!=dominantes[j].y))
 						sol[dominantes[j].index].push_back(puntos[i].index);
-				}
-				else
-					break;
 			}
 		}
 		return;
