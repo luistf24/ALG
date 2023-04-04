@@ -15,8 +15,8 @@ build: # Construir los programas: Generador, Especifico y Dyv
 runGen: # Ejecuta el generador de casos m=tamaño del mapa n=numero de posiciones
 	./Generador/bin/generador ${m} ${n}
 
-runDyv: # Ejecuta el programa con el algoritmo Divide y Vencerás n=posiciones del problema m=tamaño del mapa s=salida(0 -> ninguna|1 -> archivo)
-	./Dyv/bin/dyv ${n} ${m} ${s}
+runDyv: # Ejecuta el programa con el algoritmo Divide y Vencerás n=posiciones del problema y s=salida(0 -> ninguna|1 -> archivo)
+	./Dyv/bin/dyv ${n} ${s}
 
 runEsp: # Ejecuta el programa con el algoritmo Especifico n=posiciones del problema s=salida(0 -> ninguna|1 -> archivo)
 	./Especifico/bin/especifico ${n} ${s}
