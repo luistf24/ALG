@@ -15,8 +15,8 @@ build: # Construir los programas: Generador, Especifico y Dyv
 runGen: # Ejecuta el generador de casos m=tamaño del mapa n=numero de posiciones
 	./Generador/bin/generador ${m} ${n}
 
-runDyv: # Ejecuta el programa con el algoritmo Divide y Vencerás n=posiciones del problema s=salida(0 -> ninguna|1 -> archivo)
-	./Dyv/bin/dyv ${n} ${s}
+runDyv: # Ejecuta el programa con el algoritmo Divide y Vencerás n=posiciones del problema m=tamaño del mapa s=salida(0 -> ninguna|1 -> archivo)
+	./Dyv/bin/dyv ${n} ${m} ${s}
 
 runEsp: # Ejecuta el programa con el algoritmo Especifico n=posiciones del problema s=salida(0 -> ninguna|1 -> archivo)
 	./Especifico/bin/especifico ${n} ${s}
@@ -30,8 +30,8 @@ runDyvScript: # Ejecuta el programa Divide y Vencerás con el script mide-tiempo
 imagen: # Crea las imágenes con gnuplot  
 	gnuplot -c scriptPlot.gp especifico Algoritmo-Especifico Especifico cuadratico
 	gnuplot -c scriptPlotEmp.gp especifico Algoritmo-Especifico Especifico cuadratico
-	#gnuplot -c scriptPlot.gp dyv Algoritmo-Divide-y-Vencerás Dyv log
-	#gnuplot -c scriptPlotEmp.gp dyv Algoritmo-Divide-y-Vencerás Dyv log
+	gnuplot -c scriptPlot.gp dyv Algoritmo-Divide-y-Vencerás Dyv log
+	gnuplot -c scriptPlotEmp.gp dyv Algoritmo-Divide-y-Vencerás Dyv log
 
 clean: # Limpia los proyectos(Generador, Especifico y Dyv)
 	@echo -e "Limpiando los binarios ..."
