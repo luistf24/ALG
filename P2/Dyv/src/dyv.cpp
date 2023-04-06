@@ -70,16 +70,16 @@ vector<punto> obtenerPosiciones(int pos)
 }
 
 
-void solucionDyv(vector<vector<int>> &sol, vector<punto> puntos, vector<punto> dominantes, int inicio, int fin)
+void solucionDyv(vector<vector<int>>& sol, vector<punto> puntos, vector<punto> dominantes, int inicio, int fin)
 {
 	if((fin-inicio)<101)
 	{
 		sort(dominantes.begin(),dominantes.end(), compy);
 		for(int i=inicio;i<fin;i++)
 		{
-			for(int j=dominantes.size()-1; j>=0 && puntos[i].y<=dominantes[j].y; j--)
+			for(int j=dominantes.size()-1; j>=0 && puntos[i].y<dominantes[j].y; j--)
 			{
-					if(puntos[i].x<=dominantes[j].x && (puntos[i].x!=dominantes[j].x || puntos[i].y!=dominantes[j].y))
+					if(puntos[i].x<dominantes[j].x)
 						sol[dominantes[j].index].push_back(puntos[i].index);
 			}
 		}

@@ -71,7 +71,7 @@ vector<vector<int>> solucionEspecifica(vector<punto> posiciones)
 
 		for(int j=i-1; j>=0; j--)
 		{
-			if(posiciones[i].y >= posiciones[j].y)
+			if(posiciones[i].y > posiciones[j].y && posiciones[i].x != posiciones[j].x)
 				posicionesi.push_back(j);
 				
 		}
