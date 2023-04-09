@@ -88,7 +88,7 @@ void solucionDyv(vector<vector<int>>& sol, vector<punto> puntos, vector<punto> d
 
 	int med=(inicio+fin)/2;
 	solucionDyv(sol, puntos, dominantes, inicio, med);
-	solucionDyv(sol, puntos, dominantes, med, inicio);
+	solucionDyv(sol, puntos, dominantes, med, fin);
 }
 
 int main(int argc, char *argv[])
