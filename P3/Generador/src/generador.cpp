@@ -15,7 +15,7 @@ void generar(int n)
 	// Iniciamos la semilla
 	srand(time(NULL));
 
-	ofstream salida("./Generador/data/posiciones.dat", ofstream::out | ofstream::trunc);
+	ofstream salida("./Generador/data/personas.dat", ofstream::out | ofstream::trunc);
 
 	// Matriz nx2 col1 = entrenador, col2 = cliente 
 	for(int i=0; i<n; i++)
