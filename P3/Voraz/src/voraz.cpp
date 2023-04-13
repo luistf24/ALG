@@ -37,7 +37,7 @@ void obtenerPersonas(int n, vector<Persona>& entrenadores, vector<Persona>& clie
 	Persona p;
 	int i = 0;
 
-	while(getline(posicionesGeneradas, linea) && i<20)
+	while(getline(posicionesGeneradas, linea) && i<n)
 	{
 		ss << linea;
 
@@ -46,7 +46,6 @@ void obtenerPersonas(int n, vector<Persona>& entrenadores, vector<Persona>& clie
 		p.indice=i;
 		stringstream(palabra) >> p.peso;
 
-		cout << p.peso << endl;
 		entrenadores.push_back(p);
 
 		// " "
