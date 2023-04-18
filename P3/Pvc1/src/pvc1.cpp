@@ -10,20 +10,46 @@
 
 using namespace std;
 
-
-// Función para obtener una matriz adyacente de un archivo
-vector<vector<int>> obtenerCiudades(int n)
+struct Ciudad
 {
-	vector<vector<int>> ciudades(n, vector<int>(n, 0));
+	int indice;
+	int x;
+	int y;
+};
 
+
+// Función para obtener una lista de ciudades
+vector<Ciudad> obtenerCiudades(int n)
+{
 	ifstream ciudadesGeneradas("./Generador-pvc/data/ciudades.dat");
-	
-	for (int i = 0; i < n; ++i) 
-	{
-    	for (int j = 0; j < n; ++j)
-        	ciudadesGeneradas >> ciudades[i][j];
 
-		ciudadesGeneradas.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	string linea, palabra;
+	stringstream ss;
+	int numero;
+	vector<Ciudad> ciudades;
+	Ciudad ciudad;
+	int i = 0;
+
+	while(getline(ciudadesGeneradas, linea) && i<n)
+	{
+		ciudad.indice = i;
+
+		ss << linea;
+
+		// x
+		ss >> palabra;	
+		stringstream(palabra) >> ciudad.x;
+
+		// " "
+		ss >> palabra;	
+
+		// y
+		ss >> palabra;	
+		stringstream(palabra) >> ciudad.y;
+
+		ciudades.push_back(ciudad);
+		i += 1;
+		ss.clear();
 	}
 
 	return ciudades;
@@ -42,7 +68,7 @@ int main(int argc, char *argv[])
 
 	int n = atoi(argv[1]);
 
-	vector<vector<int>> matrizAdy = obtenerCiudades(n);
+	vector<Ciudad> ciudades = obtenerCiudades(n);
 
 	//Calculamos el tiempo de ejecución del algoritmo con Chrono
 	std::chrono::high_resolution_clock::time_point t_antes, t_despues;
@@ -56,6 +82,11 @@ int main(int argc, char *argv[])
 
 	// Imprimimos el tiempo de ejecución del algoritmo a través de la terminal
 	cout << argv[1] << " " << transcurrido.count() << endl;
+
+	for(int i = 0; i<ciudades.size(); i++)
+	{
+		cout << "Ciudad " << ciudades[i].indice << " " << ciudades[i].x << " " << ciudades[i].y << endl;
+	}
 
 	// Imprimimos la solución en el archivo solucion.dat si la salida es archivo
 	//if(atoi(argv[2]) == 1)

@@ -9,40 +9,46 @@
 
 using namespace std;
 
-// Función para generar una matriz de adyacencia
 void generar(int n)
 {
+	int area = 1000*1000;
 
-	int matrizAdy[n][n];
+	// Creamos el mapa
+	vector<bool> mapa(area, false);
 
-	for(int i=0; i<n; i++)
-	{
-		matrizAdy[i][i] = 0;
-
-		for(int j=i+1; j<n; j++)
-			matrizAdy[i][j] = rand() % 100 + 1;
-	}
-
-	for(int i=1; i<n; i++)
-		for(int j=0; j<i; j++)
-			matrizAdy[i][j] = matrizAdy[j][i];
-
+	// Posiciones generadas
+	vector<pair<int,int>> generadas;
 	// Iniciamos la semilla
 	srand(time(NULL));
 
-	ofstream salida("./Generador-pvc/data/ciudades.dat", ofstream::out | ofstream::trunc);
-
-	// Tenemos que crear la matriz de adyacencia
-	for(int i=0; i<n; i++)
+	int i = 0;
+	int num=0;
+	pair<int,int> posGenerada;
+	while(i<n)
 	{
-		for(int j=0; j<n; j++)
-			salida << matrizAdy[i][j] << " ";
-		
-		salida << endl;
+		num = rand()%area;
+		if(mapa[num] == false)
+		{
+			mapa[num] = true;
+
+			// Parte entera para la x
+			posGenerada.first	= (int)(num/1000);
+			// Modulo para la y
+			posGenerada.second	= num % 1000;
+
+			generadas.push_back(posGenerada);
+
+			i++;
+		}
 	}
+
+	ofstream salida("./Generador-pvc/data/ciudades.dat", ofstream::out | ofstream::trunc);
+	for(int j=0; j<generadas.size(); j++)
+		salida << generadas[j].first << " " << generadas[j].second << endl;	
 	
 	salida.close();
 }
+
 
 int main(int argc, char *argv[])
 {
