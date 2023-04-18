@@ -10,9 +10,13 @@ build: # Construir los programas: Generador, Especifico y Dyv
 	@echo -e "Construyendo el proyecto ..."
 	g++ ./Generador/src/generador.cpp -o ./Generador/bin/generador -O3
 	g++ ./Voraz/src/voraz.cpp -o ./Voraz/bin/voraz -O3
+	g++ ./Generador-pvc/src/generador-pvc.cpp -o ./Generador-pvc/bin/generador-pvc -O3
 
 runGen: # Ejecuta el generador de casos n=número de entrenadores y deportistas
 	./Generador/bin/generador ${n}
+
+runGenPvc: # Ejecuta el generador de casos para el problema del viajante de comercio n=número de ciudades
+	./Generador-pvc/bin/generador-pvc ${n}
 
 runVor: # Ejecuta el programa n=número de personas y s=salida(0 -> ninguna | 1 -> archivo)
 	./Voraz/bin/voraz ${n} ${s}
@@ -23,5 +27,7 @@ imagen: # Crea las imágenes con gnuplot
 
 clean: # Limpia los proyectos(Generador, Especifico y Dyv)
 	@echo -e "Limpiando los binarios ..."
-	rm ./Generador/bin/generador
+	rm ./Generador/bin/*
+	rm ./Generador-pvc/bin/*
+	rm ./Voraz/bin/*
 
