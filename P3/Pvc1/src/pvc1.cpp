@@ -7,6 +7,7 @@
 #include <utility> //pair
 #include <chrono>
 #include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -16,6 +17,11 @@ struct Ciudad
 	int x;
 	int y;
 };
+
+float distEuclidea(Ciudad a, Ciudad b)
+{
+	return sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));
+}
 
 
 // Función para obtener una lista de ciudades
@@ -55,6 +61,22 @@ vector<Ciudad> obtenerCiudades(int n)
 	return ciudades;
 }
 
+vector<vector<float>> generarMatriz(vector<Ciudad> ciudades)
+{
+	int n = ciudades.size();
+	vector<vector<float>>matrizAdy(ciudades.size(), vector<float>(ciudades.size(), 0.0));
+	for(int i=0;i<n;i++)
+		for(int j=i; j<n; j++)
+			if(i!=j)
+				matrizAdy[i][j] = distEuclidea(ciudades[i], ciudades[j]);
+
+	for(int i=0; i<n; i++)
+		for(int j=0; j<i; j++)
+			matrizAdy[i][j] = matrizAdy[j][i];
+
+	return matrizAdy;
+}
+
 // Resolución del problema mediante un algoritmo Greedy.
 
 int main(int argc, char *argv[])
@@ -82,11 +104,6 @@ int main(int argc, char *argv[])
 
 	// Imprimimos el tiempo de ejecución del algoritmo a través de la terminal
 	cout << argv[1] << " " << transcurrido.count() << endl;
-
-	for(int i = 0; i<ciudades.size(); i++)
-	{
-		cout << "Ciudad " << ciudades[i].indice << " " << ciudades[i].x << " " << ciudades[i].y << endl;
-	}
 
 	// Imprimimos la solución en el archivo solucion.dat si la salida es archivo
 	//if(atoi(argv[2]) == 1)
