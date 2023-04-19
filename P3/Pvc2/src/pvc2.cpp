@@ -104,12 +104,12 @@ vector<Ciudad> solucionDyv2(vector<Ciudad> ciudades, vector<vector<float>> matri
 	sol.push_back(nVisitadas[0]);
 	intercambiarBorrar(0, nVisitadas);
 
-	double tamin;
+	float tamin;
 
 	while(nVisitadas.size()>0)
 	{
 		siguiente = nVisitadas[0];
-		tamin = numeric_limits<double>::max();
+		tamin = numeric_limits<float>::max();
 
 		for(it=sol.begin()+1; it!=sol.end(); it++)
 		{
@@ -120,7 +120,10 @@ vector<Ciudad> solucionDyv2(vector<Ciudad> ciudades, vector<vector<float>> matri
 			}
 		}
 		
-		sol.insert(cop, siguiente);
+		if(tamin > matrizAdy[sol[sol.size()-1].indice][siguiente.indice]+matrizAdy[siguiente.indice][0])	
+			sol.push_back(siguiente);
+		else
+			sol.insert(cop, siguiente);
 
 		intercambiarBorrar(0, nVisitadas);
 	}
