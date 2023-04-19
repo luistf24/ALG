@@ -23,6 +23,14 @@ float distEuclidea(Ciudad a, Ciudad b)
 	return sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));
 }
 
+// Intercambia la ciudad a por la última de la lista y la borra y la borra
+void intercambiarBorrar(int a, vector<Ciudad>& ciudades)
+{
+	int n = ciudades.size();
+
+	ciudades[a] = ciudades[n-1];
+	ciudades.resize(n-1);
+}
 
 // Función para obtener una lista de ciudades
 vector<Ciudad> obtenerCiudades(int n)
@@ -64,6 +72,7 @@ vector<Ciudad> obtenerCiudades(int n)
 vector<vector<float>> generarMatriz(vector<Ciudad> ciudades)
 {
 	int n = ciudades.size();
+
 	vector<vector<float>>matrizAdy(ciudades.size(), vector<float>(ciudades.size(), 0.0));
 	for(int i=0;i<n;i++)
 		for(int j=i; j<n; j++)
@@ -77,7 +86,41 @@ vector<vector<float>> generarMatriz(vector<Ciudad> ciudades)
 	return matrizAdy;
 }
 
-// Resolución del problema mediante un algoritmo Greedy.
+// Resolución del problema mediante un algoritmo Greedy. Devuelve un vector con las ciudades en el orden que se visitan
+vector<Ciudad> solucionDyv1(vector<Ciudad> ciudades, vector<vector<float>> matrizAdy)
+{
+	vector<Ciudad> sol;
+	vector<Ciudad> nVisitadas = ciudades;
+
+	
+	sol.push_back(ciudades[0]); // Es la ciudad inicial
+	intercambiarBorrar(0, nVisitadas);
+	Ciudad actual = sol[0];
+	Ciudad siguiente;
+	int j = 0;
+
+	while(nVisitadas.size()>1)
+	{
+		siguiente = nVisitadas[0];
+		for(int i=0; i<nVisitadas.size(); i++)
+		{
+			if(matrizAdy[actual.indice][nVisitadas[i].indice] < matrizAdy[actual.indice][siguiente.indice])
+			{
+				siguiente = nVisitadas[i];
+				j = i;
+			}
+		}
+
+		sol.push_back(siguiente);
+		intercambiarBorrar(j, nVisitadas);
+		actual = siguiente;
+		j = 0;
+	}
+
+	sol.push_back(nVisitadas[0]);
+	
+	return sol;
+}
 
 int main(int argc, char *argv[])
 {
@@ -91,13 +134,14 @@ int main(int argc, char *argv[])
 	int n = atoi(argv[1]);
 
 	vector<Ciudad> ciudades = obtenerCiudades(n);
+	vector<vector<float>> matrizAdy = generarMatriz(ciudades);
 
 	//Calculamos el tiempo de ejecución del algoritmo con Chrono
 	std::chrono::high_resolution_clock::time_point t_antes, t_despues;
 	std::chrono::duration<double> transcurrido;
 
 	t_antes = std::chrono::high_resolution_clock::now();
-	//vector<pair<int, int>> solucion = voraz(entrenadores, clientes);
+	vector<Ciudad> sol = solucionDyv1(ciudades, matrizAdy);
 	t_despues = std::chrono::high_resolution_clock::now();
   
 	transcurrido = std::chrono::duration_cast<std::chrono::duration<double>>(t_despues - t_antes);
@@ -106,8 +150,20 @@ int main(int argc, char *argv[])
 	cout << argv[1] << " " << transcurrido.count() << endl;
 
 	// Imprimimos la solución en el archivo solucion.dat si la salida es archivo
-	//if(atoi(argv[2]) == 1)
-	//{
+	if(atoi(argv[2]) == 1)
+	{
+		float longitud = 0;
 
-	//}
+		ofstream salida("./Pvc1/data/solucion.dat", ofstream::out | ofstream::trunc);
+		for(int i=0; i<sol.size(); i++)
+		{
+			salida << "Ciudad " << sol[i].indice << endl;
+			longitud += distEuclidea(sol[i-1], sol[i]);
+		}
+
+		salida << "Ciudad " << sol[0].indice << endl; // Volvemos al origen
+		longitud += distEuclidea(sol[sol.size()-1], sol[0]);
+
+		salida << "La longitud del recorrido es: " << longitud << endl;
+	}
 }
