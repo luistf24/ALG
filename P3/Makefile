@@ -12,6 +12,7 @@ build: # Construir los programas: Generador, Especifico y Dyv
 	g++ ./Voraz/src/voraz.cpp -o ./Voraz/bin/voraz -O3
 	g++ ./Generador-pvc/src/generador-pvc.cpp -o ./Generador-pvc/bin/generador-pvc -O3
 	g++ ./Pvc1/src/pvc1.cpp -o ./Pvc1/bin/pvc1 -O3
+	g++ ./Pvc2/src/pvc2.cpp -o ./Pvc2/bin/pvc2 -O3
 
 runGen: # Ejecuta el generador de casos n=número de entrenadores y deportistas
 	./Generador/bin/generador ${n}
@@ -24,6 +25,9 @@ runVor: # Ejecuta el programa n=número de personas y s=salida(0 -> ninguna | 1 
 
 runPvc1: # Ejecuta el programa pvc1 n=numero de ciudades y s=salida(0 -> ninguna | 1 -> archivo)
 	./Pvc1/bin/pvc1 ${n} ${s}
+
+runPvc2: # Ejecuta el programa pvc2 n=numero de ciudades y s=salida(0 -> ninguna | 1 -> archivo)
+	./Pvc2/bin/pvc2 ${n} ${s}
 
 imagen: # Crea las imágenes con gnuplot  
 	gnuplot -c scriptPlot.gp voraz Algoritmo-Voraz Voraz nlog
