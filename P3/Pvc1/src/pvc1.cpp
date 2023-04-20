@@ -87,6 +87,7 @@ vector<vector<float>> generarMatriz(vector<Ciudad> ciudades)
 }
 
 // Resolución del problema mediante un algoritmo Greedy. Devuelve un vector con las ciudades en el orden que se visitan
+// Vecino más cercano
 vector<Ciudad> solucionDyv1(vector<Ciudad> ciudades, vector<vector<float>> matrizAdy)
 {
 	vector<Ciudad> sol;
