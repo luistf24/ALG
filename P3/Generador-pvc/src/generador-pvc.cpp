@@ -24,10 +24,10 @@ void generar(int n)
 	// Iniciamos la semilla
 	srand(time(NULL));
 
-	int i = 0;
 	int num=0;
 	pair<int,int> posGenerada;
-	while(i<n)
+
+	for(int i=0; i<n; i++)
 	{
 		num = rand()%mapa.size();
 
@@ -40,7 +40,6 @@ void generar(int n)
 
 		mapa[num] = mapa[mapa.size()-1];
 		mapa.resize(mapa.size()-1);
-		i++;
 	}
 
 	ofstream salida("./Generador-pvc/data/ciudades.dat", ofstream::out | ofstream::trunc);
