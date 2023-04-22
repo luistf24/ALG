@@ -14,7 +14,10 @@ void generar(int n)
 	int area = 1000*1000;
 
 	// Creamos el mapa
-	vector<bool> mapa(area, false);
+	vector<int> mapa;
+
+	for(int i=0;i<area;i++)
+		mapa.push_back(i);
 
 	// Posiciones generadas
 	vector<pair<int,int>> generadas;
@@ -26,20 +29,18 @@ void generar(int n)
 	pair<int,int> posGenerada;
 	while(i<n)
 	{
-		num = rand()%area;
-		if(mapa[num] == false)
-		{
-			mapa[num] = true;
+		num = rand()%mapa.size();
 
-			// Parte entera para la x
-			posGenerada.first	= (int)(num/1000);
-			// Modulo para la y
-			posGenerada.second	= num % 1000;
+		// Parte entera para la x
+		posGenerada.first	= (int)(mapa[num]/1000);
+		// Modulo para la y
+		posGenerada.second	= mapa[num] % 1000;
 
-			generadas.push_back(posGenerada);
+		generadas.push_back(posGenerada);
 
-			i++;
-		}
+		mapa[num] = mapa[mapa.size()-1];
+		mapa.resize(mapa.size()-1);
+		i++;
 	}
 
 	ofstream salida("./Generador-pvc/data/ciudades.dat", ofstream::out | ofstream::trunc);
