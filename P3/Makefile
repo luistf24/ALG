@@ -39,8 +39,8 @@ runPvc2Script: # Ejecuta el programa pvc2 con script s=salida(0 -> ninguna | 1 -
 	./mide-tiempos.sh pvc2 ./Pvc2 $s
 
 imagen: # Crea las imágenes con gnuplot  
-	gnuplot -c scriptPlot.gp voraz Algoritmo-Voraz Voraz lineal
-	gnuplot -c scriptPlotEmp.gp voraz Algoritmo-Voraz Voraz lineal 
+	gnuplot -c scriptPlot.gp voraz Algoritmo-Voraz Voraz log
+	gnuplot -c scriptPlotEmp.gp voraz Algoritmo-Voraz Voraz log
 	gnuplot -c scriptPlot.gp pvc1 Algoritmo-Pvc1 Pvc1 cuadratico
 	gnuplot -c scriptPlotEmp.gp pvc1 Algoritmo-Pvc1 Pvc1 cuadratico
 	gnuplot -c scriptPlot.gp pvc2 Algoritmo-Pvc2 Pvc2 cuadratico
