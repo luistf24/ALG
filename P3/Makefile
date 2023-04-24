@@ -52,4 +52,5 @@ clean: # Limpia los proyectos(Generador, Especifico y Dyv)
 	rm ./Generador-pvc/bin/*
 	rm ./Voraz/bin/*
 	rm ./Pvc1/bin/*
+	rm ./Pvc2/bin/*
 
