@@ -100,11 +100,10 @@ vector<Ciudad> solucionDyv3(vector<Ciudad> ciudades, vector<vector<float>> matri
 	Ciudad siguiente;
 
 	while(nVisitadas.size()>1){
-		int num_random= rand()%(nVisitadas.size());
-        	siguiente= nVisitadas[num_random];
+		int num_random = rand()%(nVisitadas.size());
+        siguiente = nVisitadas[num_random];
 		sol.push_back(siguiente);
 		intercambiarBorrar(num_random, nVisitadas);
-		actual = siguiente;
 	}
 
 	sol.push_back(nVisitadas[0]);
