@@ -3,9 +3,16 @@
 rm $2/data/$1.dat
 
 
-i=1000
-tam=101000
-jump=5000
+i=100
+tam=20000
+jump=1000
+
+if [ "$1" == "voraz" ]
+then
+	i=1000
+	tam=100000
+	jump=3000
+fi
 
 while [ "$i" -le $tam ]
 do

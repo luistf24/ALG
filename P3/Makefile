@@ -31,19 +31,19 @@ runPvc1: # Ejecuta el programa pvc1 n=numero de ciudades y s=salida(0 -> ninguna
 	./Pvc1/bin/pvc1 ${n} ${s}
 
 runPvc1Script: # Ejecuta el programa pvc1 con script s=salida(0 -> ninguna | 1 -> archivo)
-	./mide-tiempos.sh pvc1 ./Pvc1 $s
+	./mide-tiempos.sh pvc1 ./Pvc1 ${s}
 
 runPvc2: # Ejecuta el programa pvc2 n=numero de ciudades y s=salida(0 -> ninguna | 1 -> archivo)
 	./Pvc2/bin/pvc2 ${n} ${s}
 
 runPvc2Script: # Ejecuta el programa pvc2 con script s=salida(0 -> ninguna | 1 -> archivo)
-	./mide-tiempos.sh pvc2 ./Pvc2 $s
+	./mide-tiempos.sh pvc2 ./Pvc2 ${s}
 
 runPvc3: # Ejecuta el programa pvc2 n=numero de ciudades y s=salida(0 -> ninguna | 1 -> archivo)
 	./Pvc3/bin/pvc3 ${n} ${s}
 
 runPvc3Script: # Ejecuta el programa pvc2 con script s=salida(0 -> ninguna | 1 -> archivo)
-	./mide-tiempos.sh pvc3 ./Pvc3 $s
+	./mide-tiempos.sh pvc3 ./Pvc3 ${s}
 	
 imagen: # Crea las imágenes con gnuplot  
 	gnuplot -c scriptPlot.gp voraz Algoritmo-Voraz Voraz log
@@ -65,4 +65,5 @@ clean: # Limpia los proyectos(Generador, Especifico y Dyv)
 	rm ./Pvc2/bin/*
 	rm ./Pvc3/bin/*
 	
+
 
