@@ -128,11 +128,13 @@ int main(int argc, char *argv[])
 
     vector<vector<int>> conveniencia = getConvenencia(n);
 
+	vector<vector<int>> conveniencia_inversa = getConvenencia(n);
+
 	for (int i = 0; i < n; i++) 
 		for (int j = 0; j < n; j++) 
-			conveniencia[i][j] = 1000 - conveniencia[i][j];
+			conveniencia_inversa[i][j] = 1000 - conveniencia[i][j];
 
-	int cota_sup = cotaGlobal(conveniencia);
+	int cota_sup = cotaGlobal(conveniencia_inversa);
 	vector<int> solucion_parcial(n, -1);
 	solucion_parcial[0] = 0; // No importa donde comience el ciclo -> elegimos el 0
 
@@ -143,7 +145,7 @@ int main(int argc, char *argv[])
 	std::chrono::high_resolution_clock::time_point t_antes, t_despues;
 	std::chrono::duration<double> transcurrido;
 
-	backtracking(mejorSolucion, conveniencia, solucion_parcial, cota_sup, elementos); // Ya hemos colocado el primero -> nivel 1 completo
+	backtracking(mejorSolucion, conveniencia_inversa, solucion_parcial, cota_sup, elementos); // Ya hemos colocado el primero -> nivel 1 completo
 	t_antes = std::chrono::high_resolution_clock::now();
 	t_despues = std::chrono::high_resolution_clock::now();
   
