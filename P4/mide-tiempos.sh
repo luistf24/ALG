@@ -17,7 +17,7 @@ fi
 while [ "$i" -le $tam ]
 do
 	echo $i
-    $2/bin/$1 $i $3 >> $2/data/$1.dat
+    $2/bin/$1 $i $3 $4 >> $2/data/$1.dat
      i=$(( $i + $jump ))
 done
       

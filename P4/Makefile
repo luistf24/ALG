@@ -14,11 +14,11 @@ build: # Construir los programas: Generador, Especifico y Dyv
 runGen: # Ejecuta el generador de casos n=número de comensales
 	./Generador/bin/generador ${n}
 
-runBt: # Ejecuta el programa bt n=numero de comensales y s=salida(0 -> ninguna | 1 -> archivo)
-	./bt/bin/bt ${n} ${s}
+runBt: # Ejecuta el programa bt n=numero de comensales, c=cota(1,2 y 3) y s=salida(0 -> ninguna | 1 -> archivo)
+	./bt/bin/bt ${n} ${c} ${s}
 
-runBtScript: # Ejecuta el programa bt con script s=salida(0 -> ninguna | 1 -> archivo)
-	./mide-tiempos.sh bt ./bt ${s}
+runBtScript: # Ejecuta el programa bt con script c=cota y  s=salida(0 -> ninguna | 1 -> archivo)
+	./mide-tiempos.sh bt ./bt ${c} ${s}
 	
 imagen: # Crea las imágenes con gnuplot  
 	
