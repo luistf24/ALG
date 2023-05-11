@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -16,15 +17,13 @@ vector<vector<int>> getConvenencia(int n)
 	int numero;
 	vector<vector<int>> conveniencia;
 	int temporal = 0; 
-	int i = 0;
-	int j= 0;
 	vector<int> fila;
 
-	while(getline(entrada, linea) && i<n)
+	while(getline(entrada, linea))
 	{
 		ss << linea;
 		
-		while(ss >> palabra && j<n)
+		while(ss >> palabra)
 		{
 			if(palabra != " ")
 			{
@@ -33,15 +32,12 @@ vector<vector<int>> getConvenencia(int n)
 			}
 
 			temporal = 0;
-			j += 1;
 		}
 
 		ss.clear();
 
 		conveniencia.push_back(fila);
 		fila.resize(0);
-		i += 1;
-		j = 0;
 	}
 
 	return conveniencia;
@@ -50,7 +46,7 @@ vector<vector<int>> getConvenencia(int n)
 
 // Calculamos el nivel de conveniencia de una posible solucion: sumamos la conveniencia de todos los comensales respecto a los invitador a su derecha e izquierda
 // Numero de elementos colocados en la solucion
-int calcularNivelConveniencia(const vector<vector<int>>& conveniencia, const vector<int>& solucion_parcial, int elementos, int cota) {
+int calcularNivelConveniencia(const vector<vector<int>>& conveniencia, const vector<vector<int>>& conveniencia_ordenada, const vector<int>& solucion_parcial, int elementos, int cota) {
     int nivelConveniencia = 0;
     int n = conveniencia.size(); // numero de comensales
 	vector<bool> noestan(conveniencia.size(),true);
@@ -94,12 +90,9 @@ int calcularNivelConveniencia(const vector<vector<int>>& conveniencia, const vec
 		{
 			if(noestan[i])
 			{
-				for(int j=0; j<conveniencia[i].size(); j++)
-					if(i != j && conveniencia[i][j] < min)	
-						min = conveniencia[i][j];
+				min = conveniencia_ordenada[i][1];
 
 				nivelConveniencia += min;
-				min = 1001;
 			}
 		}
 	}
@@ -108,22 +101,22 @@ int calcularNivelConveniencia(const vector<vector<int>>& conveniencia, const vec
 }
 
 // Cota superior
-int cotaGlobal( const vector<vector<int>>& conveniencia, int cota){
+int cotaGlobal( const vector<vector<int>>& conveniencia, const vector<vector<int>>& conveniencia_ordenada, int cota){
     int num_comensales = conveniencia.size();
     vector<int> pos_solucion(num_comensales);
     for( int i = 0; i < num_comensales; i++)
         pos_solucion[i] = i;
 
-    int ret = calcularNivelConveniencia(conveniencia, pos_solucion, num_comensales, cota);
+    int ret = calcularNivelConveniencia(conveniencia, conveniencia_ordenada, pos_solucion, num_comensales, cota);
     return ret;
 }
 
 
-void backtracking(vector<int>& solucion_final, const vector<vector<int>>& conveniencia, const vector<int> solucion_parcial, int & cota_sup, int elementos, int cota) {
+void backtracking(vector<int>& solucion_final, const vector<vector<int>>& conveniencia, const vector<vector<int>>& conveniencia_ordenada, const vector<int> solucion_parcial, int & cota_sup, int elementos, int cota) {
     int num_comensales = conveniencia.size();
 
     if( elementos == num_comensales){
-        int conveniencia_actual = calcularNivelConveniencia(conveniencia, solucion_parcial, num_comensales, cota);
+        int conveniencia_actual = calcularNivelConveniencia(conveniencia, conveniencia_ordenada, solucion_parcial, num_comensales, cota);
         if( conveniencia_actual < cota_sup){
             cota_sup = conveniencia_actual;
             for( int i=0; i < num_comensales; i++){
@@ -151,9 +144,9 @@ void backtracking(vector<int>& solucion_final, const vector<vector<int>>& conven
                 int sig_elementos = elementos+1;
                 
                 // Llamada recursiva para seguir creando el arbol
-                int conveniencia_actual = calcularNivelConveniencia(conveniencia, nueva_solucion_parcial, sig_elementos, cota);
+                int conveniencia_actual = calcularNivelConveniencia(conveniencia, conveniencia_ordenada, nueva_solucion_parcial, sig_elementos, cota);
                 if( conveniencia_actual < cota_sup){
-                    backtracking(solucion_final, conveniencia, nueva_solucion_parcial, cota_sup, sig_elementos, cota);
+                    backtracking(solucion_final, conveniencia, conveniencia_ordenada, nueva_solucion_parcial, cota_sup, sig_elementos, cota);
                 }
             }
         }
@@ -175,11 +168,22 @@ int main(int argc, char *argv[])
 
 	vector<vector<int>> conveniencia_inversa = getConvenencia(n);
 
+	vector<vector<int>> conveniencia_ordenada;
+
 	for (int i = 0; i < n; i++) 
 		for (int j = 0; j < n; j++) 
 			conveniencia_inversa[i][j] = 1000 - conveniencia[i][j];
 
-	int cota_sup = cotaGlobal(conveniencia_inversa, cota);
+	vector<int> ordenar;
+	for(int i=0; i<conveniencia.size(); i++)
+	{
+		ordenar = conveniencia[i];
+		sort(conveniencia.begin(), conveniencia.end());
+
+		conveniencia_ordenada.push_back(ordenar);
+	}
+
+	int cota_sup = cotaGlobal(conveniencia_inversa, conveniencia_ordenada, cota);
 	vector<int> solucion_parcial(n, -1);
 	solucion_parcial[0] = 0; // No importa donde comience el ciclo -> elegimos el 0
 
@@ -187,12 +191,13 @@ int main(int argc, char *argv[])
 	int elementos = 1;
 	vector<int> mejorSolucion(n, -1);
 
+
 	//Calculamos el tiempo de ejecución del algoritmo con Chrono
 	std::chrono::high_resolution_clock::time_point t_antes, t_despues;
 	std::chrono::duration<double> transcurrido;
 
-	backtracking(mejorSolucion, conveniencia_inversa, solucion_parcial, cota_sup, elementos, cota); // Ya hemos colocado el primero -> nivel 1 completo
 	t_antes = std::chrono::high_resolution_clock::now();
+	backtracking(mejorSolucion, conveniencia_inversa, conveniencia_ordenada, solucion_parcial, cota_sup, elementos, cota); // Ya hemos colocado el primero -> nivel 1 completo
 	t_despues = std::chrono::high_resolution_clock::now();
   
 	transcurrido = std::chrono::duration_cast<std::chrono::duration<double>>(t_despues - t_antes);
@@ -210,7 +215,7 @@ int main(int argc, char *argv[])
 			salida << mejorSolucion[i] << endl;
 		}
 
-		int conveniencia_final = calcularNivelConveniencia(conveniencia, mejorSolucion, n, cota);
+		int conveniencia_final = calcularNivelConveniencia(conveniencia, conveniencia_ordenada, mejorSolucion, n, cota);
 		salida << "La conveniencia alcanzada es: " << conveniencia_final << endl;
 	}
 
