@@ -18,8 +18,8 @@ runBt: # Ejecuta el programa bt n=numero de comensales, c=cota(1,2 y 3) y s=sali
 	./Generador/bin/generador ${n}
 	./bt/bin/bt ${n} ${c} ${s}
 
-runBtScript: # Ejecuta el programa bt con script c=cota y  s=salida(0 -> ninguna | 1 -> archivo)
-	./mide-tiempos.sh bt ./bt ${c} ${s}
+runBtScript: # Ejecuta el programa bt con script c=cota 
+	./mide-tiempos.sh bt ./bt 
 	
 imagen: # Crea las imágenes con gnuplot  
 	
