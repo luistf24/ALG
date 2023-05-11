@@ -22,7 +22,12 @@ runBtScript: # Ejecuta el programa bt con script c=cota
 	./mide-tiempos.sh bt ./bt 
 	
 imagen: # Crea las imágenes con gnuplot  
-	
+	gnuplot -c scriptPlot.gp bt_0 BackTracking-Cota-0 bt nan
+	gnuplot -c scriptPlot.gp bt_1 BackTracking-Cota-1 bt nan
+	gnuplot -c scriptPlot.gp bt_2 BackTracking-Cota-2 bt nan
+	gnuplot -c scriptPlotEmp.gp bt_0 BackTracking-Cota-0 bt nan
+	gnuplot -c scriptPlotEmp.gp bt_1 BackTracking-Cota-1 bt nan
+	gnuplot -c scriptPlotEmp.gp bt_2 BackTracking-Cota-2 bt nan
 
 clean: # Limpia los proyectos(Generador, Especifico y Dyv)
 	@echo -e "Limpiando los binarios ..."

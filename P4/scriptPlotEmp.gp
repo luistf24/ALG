@@ -24,10 +24,10 @@ if (ARG4 eq "log") {
 		fit g(x) ARG3."/data/".ARG1.".dat" via b1, b0
 		fit f(x) ARG3."/data/".ARG1.".dat" via a2, a1, a0
 	} else {
-		f(x) = a1*x+a0;
+		f(x) = a0*2**x;
 		g(x) = b1*x+b0
 		fit g(x) ARG3."/data/".ARG1.".dat" via b1, b0
-		fit f(x) ARG3."/data/".ARG1.".dat" via a1, a0
+		fit f(x) ARG3."/data/".ARG1.".dat" via a0
 	}
 }
 
