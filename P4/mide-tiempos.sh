@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-rm $2/data/$1.dat
+rm $2/data/$1_*.dat
 
 
 i=4

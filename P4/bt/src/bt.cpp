@@ -178,7 +178,7 @@ int main(int argc, char *argv[])
 	for(int i=0; i<conveniencia.size(); i++)
 	{
 		ordenar = conveniencia[i];
-		sort(conveniencia.begin(), conveniencia.end());
+		sort(ordenar.begin(), ordenar.end());
 
 		conveniencia_ordenada.push_back(ordenar);
 	}
