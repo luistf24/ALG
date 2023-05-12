@@ -1,3 +1,4 @@
+#include <sys/resource.h>
 #include <iostream>
 #include <vector>
 #include <queue>
@@ -92,13 +93,13 @@ public:
     int quedan = Mconveniencia.size();
 
     for (int i = 0; i < elementos; i++) {
-        int izquierda = (i - 1 + num_total) % num_total;
-        int derecha = (i + 1) % num_total;
+        int izquierda = (i - 1 + elementos) % elementos;
+        int derecha = (i + 1) % elementos;
 
-        if( izquierda < elementos)
-            nivelConveniencia += Mconveniencia[camino_parcial[i]][camino_parcial[izquierda]];
-        if( derecha < elementos)
-            nivelConveniencia += Mconveniencia[camino_parcial[i]][camino_parcial[derecha]];
+		if( izquierda < elementos)
+			nivelConveniencia += Mconveniencia[camino_parcial[i]][camino_parcial[izquierda]];
+		if( derecha < elementos)
+			nivelConveniencia += Mconveniencia[camino_parcial[i]][camino_parcial[derecha]];
 
         noestan[camino_parcial[i]] = false;
 		quedan -= 1;
@@ -206,6 +207,24 @@ void branchandbound(Solucion& mejorSolucion, const vector<vector<int>>& Mconveni
 
 
 int main(int argc, char *argv[]) {
+
+	const rlim_t kStackSize = 1024 * 1024 * 1024;   // min stack size = 16 MB
+	struct rlimit rl;
+	int result;
+
+	result = getrlimit(RLIMIT_STACK, &rl);
+	if (result == 0)
+	{
+		if (rl.rlim_cur < kStackSize)
+		{
+			rl.rlim_cur = kStackSize;
+			result = setrlimit(RLIMIT_STACK, &rl);
+			if (result != 0)
+			{
+				fprintf(stderr, "setrlimit returned result = %d\n", result);
+			}
+		}
+	}
     
     int n = atoi(argv[1]);
 	int cota = atoi(argv[2]);
@@ -224,7 +243,7 @@ int main(int argc, char *argv[]) {
 	for(int i=0; i<Mconveniencia.size(); i++)
 	{
 		ordenar = Mconveniencia[i];
-		sort(Mconveniencia.begin(), Mconveniencia.end());
+		sort(ordenar.begin(), ordenar.end());
 
 		Mconveniencia_ordenada.push_back(ordenar);
 	}
