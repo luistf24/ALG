@@ -208,7 +208,8 @@ void branchandbound(Solucion& mejorSolucion, const vector<vector<int>>& Mconveni
 
 int main(int argc, char *argv[]) {
 
-	const rlim_t kStackSize = 1024 * 1024 * 1024;   // min stack size = 16 MB
+	// Aumentar el stack
+	const rlim_t kStackSize = 1024 * 1024 * 1024;   // min stack size = 1024 MB
 	struct rlimit rl;
 	int result;
 
