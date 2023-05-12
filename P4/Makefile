@@ -10,6 +10,7 @@ build: # Construir los programas: Generador, Especifico y Dyv
 	@echo -e "Construyendo el proyecto ..."
 	g++ ./Generador/src/generador.cpp -o ./Generador/bin/generador -O3
 	g++ ./bt/src/bt.cpp -o ./bt/bin/bt -O3
+	g++ ./bb/src/bb.cpp -o ./bb/bin/bb -O3
 
 runGen: # Ejecuta el generador de casos n=número de comensales
 	./Generador/bin/generador ${n}
@@ -18,8 +19,15 @@ runBt: # Ejecuta el programa bt n=numero de comensales, c=cota(1,2 y 3) y s=sali
 	./Generador/bin/generador ${n}
 	./bt/bin/bt ${n} ${c} ${s}
 
-runBtScript: # Ejecuta el programa bt con script c=cota 
+runBtScript: # Ejecuta el programa bt con script 
 	./mide-tiempos.sh bt ./bt 
+
+runBb: # Ejecuta el programa bb n=numero de comensales, c=cota(1,2 y 3) y s=salida(0 -> ninguna | 1 -> archivo)
+	./Generador/bin/generador ${n}
+	./bb/bin/bb ${n} ${c} ${s}
+
+runBbScript: # Ejecuta el programa bb con script 
+	./mide-tiempos.sh bb ./bb 
 	
 imagen: # Crea las imágenes con gnuplot  
 	gnuplot -c scriptPlot.gp bt_0 BackTracking-Cota-0 bt nan
