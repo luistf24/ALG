@@ -21,8 +21,6 @@ runPvc: # Ejecuta el programa pvc n=numero de ciudades y s=salida(0 -> ninguna |
 runPvcScript: # Ejecuta el programa pvc con script 
 	./mide-tiempos.sh pvc Pvc
 
-imagen: # Crea las imágenes con gnuplot  
-
 clean: # Limpia los proyectos
 	@echo -e "Limpiando los binarios ..."
 	rm ./Generador/bin/*
