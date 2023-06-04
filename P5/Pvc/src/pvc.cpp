@@ -95,9 +95,9 @@ pair<float, vector<int>> pvc()
 	int n = matrizAdy.size();
 
 	// Matriz de programación dinámica
-    vector<vector<double>> dp(n, vector<double>(1 << n, numeric_limits<int>::max()));
+	vector<vector<double>> dp(n, vector<double>(1 << n, numeric_limits<int>::max()));
 
-    // Inicializar los casos base
+	// Inicializar los casos base
 	dp[0][1] = 0;
 
 
@@ -106,7 +106,7 @@ pair<float, vector<int>> pvc()
 	{
 		for (int i=0; i<n; i++) 
 		{
-            if ((conjunto & (1 << i)) != 0)
+			if ((conjunto & (1 << i)) != 0)
 			{
 				for (int j=0; j<n; j++)
 				{
@@ -117,8 +117,8 @@ pair<float, vector<int>> pvc()
 					}
 				}
 			}
-        }
-    }
+		}
+	}
 
 
 
@@ -136,9 +136,9 @@ pair<float, vector<int>> pvc()
 		}
 	}
 
-    // Reconstruimos el camino óptimo
+	// Reconstruimos el camino óptimo
 	bool salir = true;
-    vector<int> ciudadesSolucion;
+	vector<int> ciudadesSolucion;
 	int grupo = (1 << n) - 1;
 	while (ciudadF != 0)
 	{
