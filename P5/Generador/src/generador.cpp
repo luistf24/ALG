@@ -17,21 +17,16 @@ void generarMDist(int numCiudades)
     std::srand(std::time(0));
 
     // Crear matriz de distancias
-    std::vector<std::vector<int>> distancias(numCiudades, std::vector<int>(numCiudades));
-
-	 // Generar distancias aleatorias
+    vector<vector<int>> distancias(numCiudades, vector<int>(numCiudades, 0));
+    
+    // Generar valores aleatorios para las distancias entre ciudades
     for (int i = 0; i < numCiudades; ++i) {
-        for (int j = i; j < numCiudades; ++j) {
-            if (i == j) {
-                distancias[i][j] = 0;  // Distancia entre una ciudad y ella misma es cero
-            } else {
-                // Generar distancia aleatoria entre 1 y MAX_DISTANCE
-                distancias[i][j] = 1 + std::rand() % MAX_DISTANCE;
-				distancias[j][i] = distancias[i][j];
-            }
+        for (int j = i + 1; j < numCiudades; ++j) {
+            int distancia = rand() % MAX_DISTANCE + 1;  // Distancia aleatoria entre 1 y 100
+            distancias[i][j] = distancia;
+            distancias[j][i] = distancia;  // La matriz es simétrica
         }
     }
-	
 
 	ofstream salida("./Generador/data/ciudades.dat", ofstream::out | ofstream::trunc);
 
