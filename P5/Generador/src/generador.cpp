@@ -9,42 +9,36 @@
 
 using namespace std;
 
-void generar(int n)
+void generarMDist(int numCiudades)
 {
-	int area = 1000*1000;
+	const int MAX_DISTANCE = 100;  // Máxima distancia permitida entre ciudades
 
-	// Creamos el mapa
-	vector<int> mapa;
+	// Inicializar generador de números aleatorios
+    std::srand(std::time(0));
 
-	for(int i=0;i<area;i++)
-		mapa.push_back(i);
+    // Crear matriz de distancias
+    std::vector<std::vector<int>> distancias(numCiudades, std::vector<int>(numCiudades));
 
-	// Posiciones generadas
-	vector<pair<int,int>> generadas;
-	// Iniciamos la semilla
-	srand(time(NULL));
-
-	int num=0;
-	pair<int,int> posGenerada;
-
-	for(int i=0; i<n; i++)
-	{
-		num = rand()%mapa.size();
-
-		// Parte entera para la x
-		posGenerada.first	= (int)(mapa[num]/1000);
-		// Modulo para la y
-		posGenerada.second	= mapa[num] % 1000;
-
-		generadas.push_back(posGenerada);
-
-		mapa[num] = mapa[mapa.size()-1];
-		mapa.resize(mapa.size()-1);
-	}
+	 // Generar distancias aleatorias
+    for (int i = 0; i < numCiudades; ++i) {
+        for (int j = 0; j < numCiudades; ++j) {
+            if (i == j) {
+                distancias[i][j] = 0;  // Distancia entre una ciudad y ella misma es cero
+            } else {
+                // Generar distancia aleatoria entre 1 y MAX_DISTANCE
+                distancias[i][j] = 1 + std::rand() % MAX_DISTANCE;
+            }
+        }
+    }
 
 	ofstream salida("./Generador/data/ciudades.dat", ofstream::out | ofstream::trunc);
-	for(int j=0; j<generadas.size(); j++)
-		salida << generadas[j].first << " " << generadas[j].second << endl;	
+
+	for (int i = 0; i < numCiudades; ++i) {
+        for (int j = 0; j < numCiudades; ++j) {
+            salida << distancias[i][j] << " ";
+        }
+        salida << std::endl;
+    }
 	
 	salida.close();
 }
@@ -60,7 +54,7 @@ int main(int argc, char *argv[])
 
 	try
 	{
-		generar(atoi(argv[1]));
+		generarMDist(atoi(argv[1]));
 		return 0;
 	}
 	catch(invalid_argument& e)
