@@ -12,81 +12,41 @@
 
 using namespace std;
 
-struct Ciudad
+vector<vector<int>> matrizAdy;
+
+vector<vector<int>> obtenerCiudades(int n)
 {
-	int indice;
-	int x;
-	int y;
-};
-
-float distEuclidea(Ciudad a, Ciudad b)
-{
-	return sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));
-}
-
-vector<vector<float>> matrizAdy;
-
-// Intercambia la ciudad a por la última de la lista y la borra y la borra
-void intercambiarBorrar(int a, vector<Ciudad>& ciudades)
-{
-	int n = ciudades.size();
-
-	ciudades[a] = ciudades[n-1];
-	ciudades.resize(n-1);
-}
-
-// Función para obtener una lista de ciudades
-vector<Ciudad> obtenerCiudades(int n)
-{
-	ifstream ciudadesGeneradas("./Generador/data/ciudades.dat");
+	ifstream entrada("./Generador/data/ciudades.dat");
 
 	string linea, palabra;
 	stringstream ss;
 	int numero;
-	vector<Ciudad> ciudades;
-	Ciudad ciudad;
-	int i = 0;
+	vector<vector<int>> conveniencia;
+	int temporal = 0; 
+	vector<int> fila;
 
-	while(getline(ciudadesGeneradas, linea) && i<n)
+	while(getline(entrada, linea))
 	{
-		ciudad.indice = i;
-
 		ss << linea;
+		
+		while(ss >> palabra)
+		{
+			if(palabra != " ")
+			{
+				stringstream(palabra) >> temporal;
+				fila.push_back(temporal);
+			}
 
-		// x
-		ss >> palabra;	
-		stringstream(palabra) >> ciudad.x;
+			temporal = 0;
+		}
 
-		// " "
-		ss >> palabra;	
-
-		// y
-		ss >> palabra;	
-		stringstream(palabra) >> ciudad.y;
-
-		ciudades.push_back(ciudad);
-		i += 1;
 		ss.clear();
+
+		conveniencia.push_back(fila);
+		fila.resize(0);
 	}
 
-	return ciudades;
-}
-
-vector<vector<float>> generarMatriz(vector<Ciudad> ciudades)
-{
-	int n = ciudades.size();
-
-	vector<vector<float>>matrizAdy(ciudades.size(), vector<float>(ciudades.size(), 0.0));
-	for(int i=0;i<n;i++)
-		for(int j=i; j<n; j++)
-			if(i!=j)
-				matrizAdy[i][j] = distEuclidea(ciudades[i], ciudades[j]);
-
-	for(int i=0; i<n; i++)
-		for(int j=0; j<i; j++)
-			matrizAdy[i][j] = matrizAdy[j][i];
-
-	return matrizAdy;
+	return conveniencia;
 }
 
 
@@ -176,8 +136,7 @@ int main(int argc, char *argv[])
 	vector<vector<float>> dp(1 << n, vector<float>(n,-1));
 	int cost = 0;
 
-	vector<Ciudad> ciudades = obtenerCiudades(n);
-	matrizAdy = generarMatriz(ciudades);
+	matrizAdy = obtenerCiudades(n);
 
 	//Calculamos el tiempo de ejecución del algoritmo con Chrono
 	std::chrono::high_resolution_clock::time_point t_antes, t_despues;
@@ -202,7 +161,6 @@ int main(int argc, char *argv[])
 		// Calculamos el recorrido de la última a la primera
 		for(int i=solucion.second.size()-1; i>=0; i--)
 			salida << "Ciudad " << solucion.second[i] << endl;
-
 
 		salida << "La longitud del recorrido es: " << solucion.first << endl;
 	}
